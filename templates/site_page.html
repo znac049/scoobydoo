@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block head %}
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Scooby</title>
+    {% endblock %}
+</head>
+<body>
+    <div id="content">
+        {% block view_content %}
+        <h1>What Just Happened?</h1>
+        {% endblock %}
+    </div>
+
+    <div id="footer">
+        {% block footer %}
+        &copy; Copyright 2025 by Resillion
+        {% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{% extends "site_page.html" %}
+
+{% block view_content %}
+<h1>Tapes</h1>
+<ul>
+    {% for tape in object_list %}
+        <li>{{ tape.label }} - {{ tape.media_type }}</li>
+    {% empty %}
+        No tapes yet.
+    {% endfor %}
+</ul>
+{% endblock %}
