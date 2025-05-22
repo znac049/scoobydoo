@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 
 # Backup tape management
 class MediaType(models.Model):
@@ -21,6 +21,9 @@ class Tape(models.Model):
 
     def __str__(self):
         return f"{self.label} ({self.media_type})"
+
+    def get_absolute_url(self):
+        return reverse('tape-list')#, kwargs={'pk': self.pk})
 
 class Movement(models.Model):
     movement_date = models.DateField()

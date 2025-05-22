@@ -1,0 +1,34 @@
+{% extends "site_page.html" %}
+
+{% block view_content %}
+<h1>Tapes</h1>
+{% if object_list %}
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Label</th>
+            <th>Media Type</th>
+            <th>Location</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tape in object_list %}
+            <tr>
+                <td>{{ tape.id }}</td>
+                <td>{{ tape.label }}</td>
+                <td>{{ tape.media_type }}</td>
+                <td>{{ tape.location }}</td>
+                <td>
+                    <button onclick="location.href='/tapes/{{ tape.id }}/'" type="button" class="btn btn-link btn-sml">Edit</button>
+                    <button onclick="location.href='/tapes/{{ tape.id }}/delete/'" type="button" class="btn btn-link btn-sml">Delete</button>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+No tapes yet.
+{% endif %}
+{% endblock %}

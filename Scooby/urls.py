@@ -17,10 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from Doo.views import HomePage, TapeListView
+from Doo.views import HomePage, TapeListView, TapeCreateView, TapeUpdateView, TapeDeleteView
 
 urlpatterns = [
     path('', HomePage.as_view()),
     path('admin/', admin.site.urls),
-    path('tapes/', TapeListView.as_view()),
+    path('tapes/', TapeListView.as_view(), name='tape-list'),
+    path('tapes/add/', TapeCreateView.as_view(), name='tape-add'),
+    path('tapes/<int:pk>/', TapeUpdateView.as_view(), name='tape-update'),
+    path('tapes/<int:pk>/delete/', TapeDeleteView.as_view(), name='tape-delete'),
 ]

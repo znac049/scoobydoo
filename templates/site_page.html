@@ -1,23 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}" >
     {% block head %}
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <title>Scooby</title>
     {% endblock %}
 </head>
 <body>
-    <div id="content">
-        {% block view_content %}
-        <h1>What Just Happened?</h1>
-        {% endblock %}
-    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column col-2">
+                <img src="{% static 'scoobydoo.png' %}" height="64px">
+            </div>
+            <div class="column col-8">
+                <header class="navbar">
+                    <section class="navbar-section">
+                      <a href="/" class="navbar-brand mr-2">Home</a>
+                      <a href="/tapes/" class="btn btn-link">Tapes</a>
+                    </section>
+                    <section class="navbar-section">
+                        <a href="/admin/" class="btn btn-link">Admin</a>
+                      <div class="input-group input-inline">
+                        <input class="form-input" type="text" placeholder="search">
+                        <button class="btn btn-primary input-group-btn">Search</button>
+                      </div>
+                    </section>
+                </header>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column col-2">
+                {% block side_bar %}
+                <p></p>
+                {% endblock %}
 
-    <div id="footer">
-        {% block footer %}
-        &copy; Copyright 2025 by Resillion
-        {% endblock %}
+                {% block side_menu %}
+                    {% if side_menu %}
+                    <ul class="nav">
+                        <li class="nav-item active">
+                            <a href="#">Tapes</a>
+                            <ul class="nav">
+                                {% for item in side_menu %}
+                                    <li class="nav-item">
+                                        <a href="{{ item.url }}">{{ item.label }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                    {% endif %}
+                {% endblock %}
+            </div>
+            <div class="column col-10">
+                <div id="content">
+                    {% block view_content %}
+                    <h1 class="header">What Just Happened?</h1>
+                    {% endblock %}
+                </div>
+
+                <div id="footer">
+                    {% block footer %}
+                    
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
