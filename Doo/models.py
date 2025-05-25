@@ -18,6 +18,7 @@ class Tape(models.Model):
     label = models.CharField(max_length=30)
     media_type = models.ForeignKey(MediaType, on_delete=models.RESTRICT)
     location = models.ForeignKey(StorageLocation, on_delete=models.RESTRICT, default=-1)
+    date_moved = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
         return f"{self.label} ({self.media_type})"

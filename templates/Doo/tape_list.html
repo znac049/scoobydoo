@@ -10,6 +10,7 @@
             <th>Label</th>
             <th>Media Type</th>
             <th>Location</th>
+            <th>Date Moved</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -20,6 +21,7 @@
                 <td>{{ tape.label }}</td>
                 <td>{{ tape.media_type }}</td>
                 <td>{{ tape.location }}</td>
+                <td>{{ tape.date_moved }}</td>
                 <td>
                     <button onclick="location.href='/tapes/{{ tape.id }}/'" type="button" class="btn btn-link btn-sml">Edit</button>
                     <button onclick="location.href='/tapes/{{ tape.id }}/delete/'" type="button" class="btn btn-link btn-sml">Delete</button>
