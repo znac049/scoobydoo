@@ -2,7 +2,10 @@ from django.utils import timezone
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Tape
+from django.http import JsonResponse
+from http import HTTPStatus
+
+from .models import Tape, MediaType, StorageLocation
 
 
 class ViewHelper():
@@ -69,6 +72,13 @@ class TapeListView(ListView, ViewHelper):
         print(f"media={self.filter_media_type}, loc={self.filter_location}")
         return resp
 
+    def post(self, request, *args, **kwargs):
+        # some project logic
+        return JsonResponse({
+            'status': HTTPStatus.OK,
+            'data': {}
+        })
+
     def get_queryset(self, **kwargs):
         qs = super().get_queryset(**kwargs)
         print(f"media={self.filter_media_type}, loc={self.filter_location}")
@@ -81,4 +91,9 @@ class TapeListView(ListView, ViewHelper):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["side_menu"] = TapeViewHelper().get_side_menu()
+
+        # Grab data for the filter bar
+        context["media_list"] = MediaType.objects.all()
+        context["locations_list"] = StorageLocation.objects.all()
+
         return context

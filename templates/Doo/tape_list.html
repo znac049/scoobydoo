@@ -1,35 +1,122 @@
 {% extends "site_page.html" %}
 
 {% block view_content %}
+<script>
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    function sendPostRequest() {
+        const csrfToken = getCookie('csrftoken');
+        const url = '/tapes/';
+
+        const data = { key: 'value' };
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken // Include the CSRF token in the header
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Response from server:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    $(document).ready(function(){
+        $("#ml-check").change(function(){
+            var formData = {
+                name: $("#name").val(),
+                email: $("#email").val(),
+                superheroAlias: $("#superheroAlias").val(),
+                csrfmiddlewaretoken: $("csrfmiddlewaretoken").val(),
+            };
+
+            sendPostRequest();
+
+            //$.post("/tapes/", formData, function(data, status){
+            //    alert("Data: " + data + "\nStatus: " + status);
+            //});
+        });
+    });
+</script>
+
 <h1>Tapes</h1>
 {% if object_list %}
-<table class="table table-striped table-hover">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Label</th>
-            <th>Media Type</th>
-            <th>Location</th>
-            <th>Date Moved</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for tape in object_list %}
+<div>
+    <form method="post">
+    {% csrf_token %}
+    Filters: 
+    <div class="dropdown">
+        <a href="#" class="btn btn-link dropdown-toggle" tabindex="0">
+            Media Type <i class="icon icon-caret"></i>
+        </a>
+        <!-- menu component -->
+        <ul class="menu">
+            {% for media in media_list %}
+                <li class="menu-item">
+                    <label class="form-checkbox">
+                    <input type="checkbox" id="ml-check">
+                    <i class="form-icon"></i> {{ media.name }}
+                    </label>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="dropdown">
+        <a href="#" class="btn btn-link dropdown-toggle" tabindex="0">
+            Location <i class="icon icon-caret"></i>
+        </a>
+        <!-- menu component -->
+        <ul class="menu">
+            {% for location in locations_list %}
+                <li class="menu-item">
+                    <label class="form-checkbox">
+                    <input type="checkbox">
+                    <i class="form-icon"></i> {{ location.name }}
+                    </label>
+                </li>
+            {% endfor %}
+   </div>
+   </form>
+</div>
+<div id="zobbo">
+    <table class="table table-striped table-hover">
+        <thead>
             <tr>
-                <td>{{ tape.id }}</td>
-                <td>{{ tape.label }}</td>
-                <td>{{ tape.media_type }}</td>
-                <td>{{ tape.location }}</td>
-                <td>{{ tape.date_moved }}</td>
-                <td>
-                    <button onclick="location.href='/tapes/{{ tape.id }}/'" type="button" class="btn btn-link btn-sml">Edit</button>
-                    <button onclick="location.href='/tapes/{{ tape.id }}/delete/'" type="button" class="btn btn-link btn-sml">Delete</button>
-                </td>
+                <th>Id</th>
+                <th>Label</th>
+                <th>Media Type</th>
+                <th>Location</th>
+                <th>Date Moved</th>
+                <th>Actions</th>
             </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            {% for tape in object_list %}
+                <tr>
+                    <td>{{ tape.id }}</td>
+                    <td>{{ tape.label }}</td>
+                    <td>{{ tape.media_type }}</td>
+                    <td>{{ tape.location }}</td>
+                    <td>{{ tape.date_moved }}</td>
+                    <td>
+                        <button onclick="location.href='/tapes/{{ tape.id }}/'" type="button" class="btn btn-link btn-sml">Edit</button>
+                        <button onclick="location.href='/tapes/{{ tape.id }}/delete/'" type="button" class="btn btn-link btn-sml">Delete</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% else %}
 No tapes yet.
 {% endif %}
