@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from auditlog.registry import auditlog
 
 # Backup tape management
 class MediaType(models.Model):
@@ -59,5 +60,5 @@ class IPAddress(models.Model):
         return f"{self.address}"
 
 
-
+auditlog.register(Tape)
   
