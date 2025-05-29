@@ -8,16 +8,7 @@ from django.http import JsonResponse
 from http import HTTPStatus
 
 from .models import Tape, MediaType, StorageLocation
-
-
-class ViewHelper():
-    menu = []
-
-    def get_side_menu(self):
-        return self.menu
-
-    def is_ajax(self, request):
-       return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest' 
+from .helpers.viewhelper import ViewHelper
 
 class TapeViewHelper(ViewHelper):
     def __init__(self):
@@ -67,27 +58,9 @@ class TapeListView(ListView, ViewHelper):
     filter_media_type = None
     filter_location = None
 
-    def setup(self, request, *args, **kwargs):
-        print("setup(...)")
-        super().setup(request, *args, **kwargs)
-
-    def dispatch(self, request, *args, **kwargs):
-        print("dispatch(...)")
-        resp = super().dispatch(request, *args, **kwargs)
-        print(request.method)
-    
-        return resp
-
-    def get(self, request, *args, **kwargs):
-        print("get(...)")
-
-        return super().get(request, *args, **kwargs)
-
     # POST will only be used by the view to implement live filtering via Ajax
     def post(self, request, *args, **kwargs):
-        print("post(...)")
         payload = json.loads(list(request.POST.keys())[0])
-
         print(json.dumps(payload, indent=2))
 
         self.filter_media_type = payload['media_type']
@@ -104,17 +77,29 @@ class TapeListView(ListView, ViewHelper):
 
         qs = super().get_queryset(**kwargs)
         print(f"media={self.filter_media_type}, loc={self.filter_location}")
+
+        # Deal with any filtering
         if self.filter_media_type:
-            print(f"Filter by media: {self.filter_media_type}")
-            #qs = qs.filter(media_type_id=self.filter_media_type)
-        if self.filter_location != None:
-            print(f"Filter by location: {self.filter_location}")
-            #qs = qs.filter(location_id=self.filter_location)
+            print("filter on media_type")
+            rqs = self.model.objects.none()
+
+            for id in self.filter_media_type:
+                rqs = rqs | qs.filter(media_type=id)
+
+            qs = rqs.distinct()
+
+        if self.filter_location:
+            print("Filter on location")
+            rqs = self.model.objects.none()
+
+            for id in self.filter_location:
+                rqs = rqs | qs.filter(location=id)
+
+            qs = rqs.distinct()
+
         return qs
 
     def get_context_data(self, **kwargs):
-        print("get_content_data()")
-
         context = super().get_context_data(**kwargs)
         context["side_menu"] = TapeViewHelper().get_side_menu()
 
@@ -125,8 +110,6 @@ class TapeListView(ListView, ViewHelper):
         return context
 
     def get_template_names(self):
-        print("get_template_names()")
-
         names = super().get_template_names()
         if self.is_ajax(self.request):
             print("AJAX!")
@@ -138,7 +121,6 @@ class TapeListView(ListView, ViewHelper):
                 new_names += [name]
 
             names = new_names
-        else:
-            print("not AJAX")
+
         print(f"-> {names}")
         return names

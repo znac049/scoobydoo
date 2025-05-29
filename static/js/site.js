@@ -11,21 +11,20 @@ function sendPostRequest(url, data, element_id) {
         data = JSON.stringify(data)
     }
 
-    console.log('calling AJAX: ' + url)
     $.ajax({
         url: url,
-        type: 'post',
+        method: 'post',
         data: data,
         headers: {
             'X-CSRFToken': csrfToken
         },
         dataType: 'html',
         success: function(data) {
-            console.log('AJAX success');
-            document.getElementById(element_id).innerHTML="<h1>Ajax:</h1>"+data;
+            document.getElementById(element_id).innerHTML=data;
         },
-        error: function(error) {
-            console.log('AJAX error; ' + error);
+        error: function(jqXHR, text_status, error_thrown) {
+            console.log('AJAX error; ' + error_thrown);
+            document.getElementById(element_id).innerHTML="Ajax error";
         }
     });
 }
