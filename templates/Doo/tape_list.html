@@ -23,13 +23,17 @@
 
             sendPostRequest("/tapes/", formData, 'zobbo');
         });
+
+        $("#tape-search").on("keyup", function(event){
+            console.log("Event: " + $("#tape-search").val());
+        });
     });
 </script>
 
 <h1>Tapes</h1>
 {% if object_list %}
 <div>
-    <form method="post">
+    <form method="post" onsubmit="event.preventDefault();">
     {% csrf_token %}
     Filters: 
     <div class="dropdown">
@@ -62,6 +66,10 @@
                     </label>
                 </li>
             {% endfor %}
+        </ul>
+   </div>
+   <div class="view-search">
+        <input type="text" id="tape-search" placeholder="Search tape labels">
    </div>
    </form>
 </div>
