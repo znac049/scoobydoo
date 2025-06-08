@@ -40,10 +40,14 @@ class Movement(models.Model):
     comment = models.TextField(default='')
 
     def __str__(self):
-        return f"{self.label} ({self.media_type})"
+        return f"{self.movement_date}"
 
     def get_absolute_url(self):
         return reverse('move-list')
+
+    def save(self, *args, **kwargs):
+        print(f"SAVE!!!!")
+        return super().save(*args, **kwargs)
 
 
 # Backup restore log

@@ -15,6 +15,7 @@ class TapeViewHelper(ViewHelper):
         self.menu = [
             {'label': 'List Tapes', 'url': '/tapes/'},
             {'label': 'Add Tape', 'url': '/tapes/add/'},
+            {'label': 'List Tape Movements', 'url': '/movement/'},
             {'label': 'Move Tape(s)', 'url': '/movement/add/'},
         ]
 
