@@ -31,12 +31,19 @@ class Tape(models.Model):
         return f"{self.label} ({self.media_type})"
 
     def get_absolute_url(self):
-        return reverse('tape-list')#, kwargs={'pk': self.pk})
+        return reverse('tape-list')
 
 class Movement(models.Model):
     movement_date = models.DateField()
     tapes = models.ManyToManyField(Tape)
     location = models.ForeignKey(StorageLocation, on_delete=models.RESTRICT)
+    comment = models.TextField(default='')
+
+    def __str__(self):
+        return f"{self.label} ({self.media_type})"
+
+    def get_absolute_url(self):
+        return reverse('move-list')
 
 
 # Backup restore log

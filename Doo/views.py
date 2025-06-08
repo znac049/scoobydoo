@@ -7,7 +7,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import JsonResponse
 from http import HTTPStatus
 
-from .models import Tape, MediaType, StorageLocation
+from .models import Tape, MediaType, StorageLocation, Movement
 from .helpers.viewhelper import ViewHelper
 
 class TapeViewHelper(ViewHelper):
@@ -15,12 +15,22 @@ class TapeViewHelper(ViewHelper):
         self.menu = [
             {'label': 'List Tapes', 'url': '/tapes/'},
             {'label': 'Add Tape', 'url': '/tapes/add/'},
+            {'label': 'Move Tape(s)', 'url': '/movement/add/'},
         ]
 
 
 class HomePage(TemplateView):
     template_name = "home.html"
 
+class CreateMovementView(CreateView):
+    model = Movement
+    fields = ['movement_date', 'tapes', 'location', 'comment']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["side_menu"] = TapeViewHelper().get_side_menu()
+        context["action"] = "New movement"
+        return context
 
 class TapeCreateView(CreateView):
     model = Tape
@@ -50,6 +60,15 @@ class TapeDeleteView(DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["side_menu"] = TapeViewHelper().get_side_menu()
+        return context
+
+class ListMovementView(ListView, ViewHelper):
+    model = Movement
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["side_menu"] = TapeViewHelper().get_side_menu()
+
         return context
 
 class TapeListView(ListView, ViewHelper):

@@ -1,0 +1,42 @@
+{% extends "site_page.html" %}
+
+{% block view_content %}
+<h1>Tape Movements</h1>
+{% if object_list %}
+<div>
+    <form method="post" onsubmit="event.preventDefault();">
+    {% csrf_token %}
+   </form>
+</div>
+<div id="listing">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>date</th>
+                <th>Tapes</th>
+                <th>Location</th>
+                <th>Comment</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for movement in object_list %}
+                <tr>
+                    <td>{{ movement.id }}</td>
+                    <td>{{ movement.date }}</td>
+                    <td>{{ movement.tapes }}</td>
+                    <td>{{ movement.location }}</td>
+                    <td>{{ movement.comment }}</td>
+                    <td>
+                        <button onclick="location.href='/tapes/{{ tape.id }}/'" type="button" class="btn btn-link btn-sml">Edit</button>
+                        <button onclick="location.href='/tapes/{{ tape.id }}/delete/'" type="button" class="btn btn-link btn-sml">Delete</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table></div>
+{% else %}
+No movements yet.
+{% endif %}
+{% endblock %}

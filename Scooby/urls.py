@@ -17,7 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from Doo.views import HomePage, TapeListView, TapeCreateView, TapeUpdateView, TapeDeleteView
+from Doo.views import HomePage, TapeListView, TapeCreateView, TapeUpdateView, TapeDeleteView, \
+                        CreateMovementView, ListMovementView
 
 urlpatterns = [
     path('', HomePage.as_view()),
@@ -26,4 +27,6 @@ urlpatterns = [
     path('tapes/add/', TapeCreateView.as_view(), name='tape-add'),
     path('tapes/<int:pk>/', TapeUpdateView.as_view(), name='tape-update'),
     path('tapes/<int:pk>/delete/', TapeDeleteView.as_view(), name='tape-delete'),
+    path('movement/add/', CreateMovementView.as_view(), name='move-add'),
+    path('movement/', ListMovementView.as_view(), name='move-list'),
 ]
