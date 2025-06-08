@@ -29,8 +29,8 @@
                     <td>{{ movement.location }}</td>
                     <td>{{ movement.comment }}</td>
                     <td>
-                        <button onclick="location.href='/tapes/{{ tape.id }}/'" type="button" class="btn btn-link btn-sml">Edit</button>
-                        <button onclick="location.href='/tapes/{{ tape.id }}/delete/'" type="button" class="btn btn-link btn-sml">Delete</button>
+                        <button onclick="location.href='/movement/{{ movement.id }}/'" type="button" class="btn btn-link btn-sml">Edit</button>
+                        <button onclick="location.href='/movement/{{ movement.id }}/delete/'" type="button" class="btn btn-link btn-sml">Delete</button>
                     </td>
                 </tr>
             {% endfor %}
