@@ -1,3 +1,4 @@
+import sys, traceback
 from django.db import models
 from django.urls import reverse
 from auditlog.registry import auditlog
@@ -45,9 +46,19 @@ class Movement(models.Model):
     def get_absolute_url(self):
         return reverse('move-list')
 
-    def save(self, *args, **kwargs):
+    def save(self, **kwargs):
         print(f"SAVE!!!!")
-        return super().save(*args, **kwargs)
+        raise Exception("SAVE!!!")
+
+        rst = super().save(**kwargs)
+
+        # Update the location on all moved tapes...
+        movement = Movement(id=self.id)
+        print(movement)
+
+        print(self.id)
+
+        return rst
 
 
 # Backup restore log
