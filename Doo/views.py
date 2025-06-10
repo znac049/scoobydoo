@@ -28,10 +28,13 @@ class CreateMovementView(CreateView):
     fields = ['movement_date', 'tapes', 'location', 'comment']
 
     def post(self, request, *args, **kwargs):
-        print(self.get_form()['tapes'])
-        print(self.get_form().get_context())
+        # print(self.get_form()['tapes'])
+        # print(self.get_form().get_context())
 
-        return super().post(request, *args, **kwargs)
+        rst = super().post(request, *args, **kwargs)
+
+        # print(vars(self.object))
+        return rst
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

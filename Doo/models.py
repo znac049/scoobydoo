@@ -48,13 +48,15 @@ class Movement(models.Model):
 
     def save(self, **kwargs):
         print(f"SAVE!!!!")
-        raise Exception("SAVE!!!")
+        # raise Exception("SAVE!!!")
 
         rst = super().save(**kwargs)
 
         # Update the location on all moved tapes...
-        movement = Movement(id=self.id)
-        print(movement)
+        tapes = self.tapes.all()
+        print(vars(tapes))
+        for tape in tapes:
+            print(tape)
 
         print(self.id)
 
