@@ -53,12 +53,12 @@ class Movement(models.Model):
         rst = super().save(**kwargs)
 
         # Update the location on all moved tapes...
-        tapes = self.tapes.all()
-        print(vars(tapes))
+        print(f"INSERTED ID: {self.id}")
+        movement = Movement.objects.get(id=self.id)
+        tapes = movement.tapes.all()
+        print(f"TAPES: {movement.tapes}")
         for tape in tapes:
-            print(tape)
-
-        print(self.id)
+            print(f"TAPE: {tape}")
 
         return rst
 
