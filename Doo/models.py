@@ -35,7 +35,7 @@ class Tape(models.Model):
         return reverse('tape-list')
 
 class Movement(models.Model):
-    movement_date = models.DateField()
+    movement_date = models.DateTimeField()
     tapes = models.ManyToManyField(Tape)
     location = models.ForeignKey(StorageLocation, on_delete=models.RESTRICT)
     comment = models.TextField(default='')
@@ -46,21 +46,17 @@ class Movement(models.Model):
     def get_absolute_url(self):
         return reverse('move-list')
 
-    def save(self, **kwargs):
-        print(f"SAVE!!!!")
-        # raise Exception("SAVE!!!")
+    def save_related(self, request, form, formsets, change):
+        super().save_related(request, form, formsets, change)
 
-        rst = super().save(**kwargs)
+        print("save_related()")
+
+    def save(self, **kwargs):
+        super().save(**kwargs)
 
         # Update the location on all moved tapes...
         print(f"INSERTED ID: {self.id}")
-        movement = Movement.objects.get(id=self.id)
-        tapes = movement.tapes.all()
-        print(f"TAPES: {movement.tapes}")
-        for tape in tapes:
-            print(f"TAPE: {tape}")
-
-        return rst
+        print(f"TAPES: {self.tapes.all()}")
 
 
 # Backup restore log
