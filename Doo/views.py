@@ -33,6 +33,17 @@ class CreateMovementView(CreateView):
         context["action"] = "New movement"
         return context
 
+    def form_valid(self, form):
+        res = super().form_valid(form)
+
+        tapes = form.cleaned_data['tapes']
+        for tape in tapes:
+            tape.date_moved = form.cleaned_data['movement_date']
+            tape.location = form.cleaned_data['location']
+            tape.save()
+
+        return res
+
 
 class TapeCreateView(CreateView):
     model = Tape
