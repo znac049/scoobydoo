@@ -1,4 +1,5 @@
 import sys, traceback
+from django import forms
 from django.db import models
 from django.urls import reverse
 from auditlog.registry import auditlog
@@ -46,18 +47,6 @@ class Movement(models.Model):
     def get_absolute_url(self):
         return reverse('move-list')
 
-    def save_related(self, request, form, formsets, change):
-        super().save_related(request, form, formsets, change)
-
-        print("save_related()")
-
-    def save(self, **kwargs):
-        super().save(**kwargs)
-
-        # Update the location on all moved tapes...
-        print(f"INSERTED ID: {self.id}")
-        print(f"TAPES: {self.tapes.all()}")
-
 
 # Backup restore log
 class FileRestoration(models.Model):
@@ -81,4 +70,5 @@ class IPAddress(models.Model):
 
 
 auditlog.register(Tape)
+auditlog.register(Movement)
   

@@ -1,5 +1,6 @@
 import json
 
+from django import forms
 from django.utils import timezone
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView
@@ -23,9 +24,17 @@ class TapeViewHelper(ViewHelper):
 class HomePage(TemplateView):
     template_name = "home.html"
 
+class MovementForm(forms.ModelForm):
+    class Meta:
+        model = Movement
+        fields = ['movement_date', 'tapes', 'location', 'comment']
+        widgets = {
+            'movement_date': forms.DateTimeInput(attrs={'is_hidden': False, 'type': 'date'})
+        }
+
 class CreateMovementView(CreateView):
+    form_class = MovementForm
     model = Movement
-    fields = ['movement_date', 'tapes', 'location', 'comment']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
