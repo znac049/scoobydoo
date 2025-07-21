@@ -10,6 +10,7 @@ from http import HTTPStatus
 
 from .models import Tape, MediaType, StorageLocation, Movement
 from .helpers.viewhelper import ViewHelper
+from .widgets import CustomMultiSelect
 
 class TapeViewHelper(ViewHelper):
     def __init__(self):
@@ -29,8 +30,13 @@ class MovementForm(forms.ModelForm):
         model = Movement
         fields = ['movement_date', 'tapes', 'location', 'comment']
         widgets = {
-            'movement_date': forms.DateTimeInput(attrs={'is_hidden': False, 'type': 'date'})
+            'movement_date': forms.DateTimeInput(attrs={'is_hidden': False, 'type': 'date'}),
+            'tapes': CustomMultiSelect(),
         }
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        print(f"dir: {self._meta.widgets}")
 
 class CreateMovementView(CreateView):
     form_class = MovementForm
