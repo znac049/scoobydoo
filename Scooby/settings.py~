@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-5*p3oe96y68e4)32e5&#e5r5!(^j5%1_sax-$*90q@ke5+y4*i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['uk023-ls-bob-1', 'uk023-ls-bob-1.aad.resillion.com', '192.168.1.50']
+ALLOWED_HOSTS = ['uk023-ls-bob-1', 'uk023-ls-bob-1.aad.resillion.com', '192.168.1.50', 'localhost']
 
 
 # Application definition
@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.forms',                 # So my widgets look in app templates
     'Doo',
     'auditlog',
 ]
@@ -136,8 +135,3 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# Make sure my widgets can get at templates in app directories
-FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
-
-LOGIN_REDIRECT_URL = '/'

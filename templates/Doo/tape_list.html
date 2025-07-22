@@ -32,46 +32,46 @@
 
 <h1>Tapes</h1>
 {% if object_list %}
-<div>
-    <form method="post" onsubmit="event.preventDefault();">
-    {% csrf_token %}
-    Filters: 
-    <div class="dropdown">
-        <a href="#" class="btn btn-link dropdown-toggle" tabindex="0">
-            Media Type <i class="icon icon-caret"></i>
-        </a>
-        <!-- menu component -->
-        <ul class="menu">
-            {% for media in media_list %}
-                <li class="menu-item">
-                    <label class="form-checkbox">
-                    <input type="checkbox" class="tape-filter media-filter" id="ml-{{ media.id }}" tabindex="{{ media.id }}">
-                    <i class="form-icon"></i> {{ media.name }}
-                    </label>
-                </li>
-            {% endfor %}
-        </ul>
+<div class="container">
+    <div class="row">
+        <form method="post" onsubmit="event.preventDefault();">
+            {% csrf_token %}
+            Filters: 
+            <span>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="mediaFilterButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    Media Type
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="mediaFilterButton">
+                    {% for media in media_list %}
+                        <li class="dropdown-item">
+                            <input type="checkbox" class="tape-filter media-filter" id="ml-{{ media.id }}" tabindex="{{ media.id }}">
+                            <i class="form-icon"></i> {{ media.name }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            </span><span>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="mediaLocationButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    Location
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="mediaLocationButton">
+                    {% for location in locations_list %}
+                        <li class="dropdown-item">
+                            <input type="checkbox" class="tape-filter location-filter" id="locn-{{ location.id }}" tabindex="{{ location.id }}">
+                            <i class="form-icon"></i> {{ location.name }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            </span><span>
+            <div class="view-search">
+                    <input type="text" id="tape-search" placeholder="Search tape labels">
+            </div>
+            </span>
+        </form>
     </div>
-    <div class="dropdown">
-        <a href="#" class="btn btn-link dropdown-toggle" tabindex="0">
-            Location <i class="icon icon-caret"></i>
-        </a>
-        <!-- menu component -->
-        <ul class="menu">
-            {% for location in locations_list %}
-                <li class="menu-item">
-                    <label class="form-checkbox">
-                    <input type="checkbox" class="tape-filter location-filter"  id="locn-{{ location.id }}" tabindex="{{ location.id }}">
-                    <i class="form-icon"></i> {{ location.name }}
-                    </label>
-                </li>
-            {% endfor %}
-        </ul>
-   </div>
-   <div class="view-search">
-        <input type="text" id="tape-search" placeholder="Search tape labels">
-   </div>
-   </form>
 </div>
 <div id="zobbo">
     {% include 'Doo/tape_list_ajax.html' %}

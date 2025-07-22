@@ -16,12 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import include
 
 from Doo.views import HomePage, TapeListView, TapeCreateView, TapeUpdateView, TapeDeleteView, \
                         CreateMovementView, ListMovementView
 
 urlpatterns = [
     path('', HomePage.as_view()),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
     path('tapes/', TapeListView.as_view(), name='tape-list'),
     path('tapes/add/', TapeCreateView.as_view(), name='tape-add'),

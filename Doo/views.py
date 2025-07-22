@@ -5,12 +5,15 @@ from django.utils import timezone
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.forms.widgets import SelectMultiple
 from django.http import JsonResponse
+
+from django.contrib.auth import views as auth_views
 from http import HTTPStatus
 
 from .models import Tape, MediaType, StorageLocation, Movement
 from .helpers.viewhelper import ViewHelper
-from .widgets import CustomMultiSelect
+from .widgets import CustomSelectMultiple
 
 class TapeViewHelper(ViewHelper):
     def __init__(self):
@@ -25,18 +28,27 @@ class TapeViewHelper(ViewHelper):
 class HomePage(TemplateView):
     template_name = "home.html"
 
+class LoginView(auth_views.LoginView):
+    pass
+
+class LogoutView(auth_views.LogoutView):
+    pass
+    
+
 class MovementForm(forms.ModelForm):
     class Meta:
         model = Movement
         fields = ['movement_date', 'tapes', 'location', 'comment']
+        
+        mult = CustomSelectMultiple(attrs={})
         widgets = {
             'movement_date': forms.DateTimeInput(attrs={'is_hidden': False, 'type': 'date'}),
-            'tapes': CustomMultiSelect(),
+            'tapes': mult, #CustomMultiSelect(),
         }
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        print(f"dir: {self._meta.widgets}")
+        print(f"WIDGETS: {self._meta.widgets}")
 
 class CreateMovementView(CreateView):
     form_class = MovementForm
