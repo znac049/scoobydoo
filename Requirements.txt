@@ -1,3 +1,4 @@
 Django
 django-auditlog
+django-require-login
 mysqlclient

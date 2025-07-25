@@ -51,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_require_login.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'Scooby.urls'
@@ -141,3 +142,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 LOGIN_REDIRECT_URL = '/'
+
+REQUIRE_LOGIN_PUBLIC_URLS = (r'/accounts/login/.*',)
