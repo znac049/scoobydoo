@@ -15,16 +15,6 @@ from .models import Tape, MediaType, StorageLocation, Movement
 from .helpers.viewhelper import ViewHelper
 from .widgets import CustomSelectMultiple
 
-class TapeViewHelper(ViewHelper):
-    def __init__(self):
-        self.menu = [
-            {'label': 'List Tapes', 'url': '/tapes/'},
-            {'label': 'Add Tape', 'url': '/tapes/add/'},
-            {'label': 'List Tape Movements', 'url': '/movement/'},
-            {'label': 'Move Tape(s)', 'url': '/movement/add/'},
-        ]
-
-
 class HomePage(TemplateView):
     template_name = "home.html"
 
@@ -54,11 +44,11 @@ class CreateMovementView(CreateView):
     form_class = MovementForm
     model = Movement
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["side_menu"] = TapeViewHelper().get_side_menu()
-        context["action"] = "New movement"
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context["side_menu"] = TapeViewHelper().get_side_menu()
+    #     context["action"] = "New movement"
+    #     return context
 
     def form_valid(self, form):
         res = super().form_valid(form)
@@ -76,11 +66,11 @@ class TapeCreateView(CreateView):
     model = Tape
     fields = ['label', 'media_type', 'location']
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["side_menu"] = TapeViewHelper().get_side_menu()
-        context["action"] = "New Tape"
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context["side_menu"] = TapeViewHelper().get_side_menu()
+    #     context["action"] = "New Tape"
+    #     return context
  
 
 class TapeUpdateView(UpdateView):
@@ -104,12 +94,6 @@ class TapeDeleteView(DeleteView):
 
 class ListMovementView(ListView, ViewHelper):
     model = Movement
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["side_menu"] = TapeViewHelper().get_side_menu()
-
-        return context
 
 class TapeListView(ListView, ViewHelper):
     model = Tape
@@ -160,7 +144,6 @@ class TapeListView(ListView, ViewHelper):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["side_menu"] = TapeViewHelper().get_side_menu()
 
         # Grab data for the filter bar
         context["media_list"] = MediaType.objects.all()
